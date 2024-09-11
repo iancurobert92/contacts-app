@@ -1,1 +1,20 @@
-<p>contacts works!</p>
+<div class="container">
+  <div class="left-panel">
+    <app-contact-filters class="contact-filters" />
+    <div class="left-panel-content">
+      <app-contact-list />
+    </div>
+    <div class="left-panel-footer">
+      <button mat-flat-button>Add new contact</button>
+    </div>
+  </div>
+  <div class="right-panel">
+    <div class="right-panel-content">
+      <app-contact-details />
+    </div>
+    <div class="right-panel-footer">
+      <button mat-flat-button>Edit contact</button>
+      <button mat-flat-button>Delete Contact</button>
+    </div>
+  </div>
+</div>
