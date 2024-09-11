@@ -49,6 +49,7 @@ $leftPanelWidth: 400px;
   &-footer {
     display: flex;
     gap: 1rem;
+    flex-wrap: wrap;
     button {
       flex-grow: 1;
     }
