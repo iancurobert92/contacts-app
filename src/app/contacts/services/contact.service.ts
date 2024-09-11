@@ -6,7 +6,7 @@ import { Contact, ContactGroup } from '../models';
   providedIn: 'root',
 })
 export class ContactService {
-  private contactsSubj = new BehaviorSubject<Contact[]>([
+  CONTACTS: Contact[] = [
     {
       firstName: 'morgan',
       lastName: 'freeman',
@@ -53,7 +53,9 @@ export class ContactService {
       lastName: 'lee jones',
       group: 'family',
     },
-  ]);
+  ];
+
+  private contactsSubj = new BehaviorSubject<Contact[]>(this.CONTACTS);
 
   get contacts$(): Observable<Contact[]> {
     return this.contactsSubj.asObservable().pipe(map(this.sortContactsAlphabetically));
@@ -64,10 +66,18 @@ export class ContactService {
   }
 
   search(term: string, group?: string) {
-    const filteredContacts = this.contactsSubj.value.filter(
-      (contact) => contact.firstName.concat(contact.lastName).includes(term) && (group ? contact.group === group : true)
-    );
-    this.contactsSubj.next(filteredContacts);
+    const text = term.trim();
+
+    if (text) {
+      const filteredContacts = this.contactsSubj.value.filter((contact) => {
+        const fullName = `${contact.firstName} ${contact.lastName}`;
+        return fullName.concat(contact.lastName).includes(text) && (group ? contact.group === group : true);
+      });
+      this.contactsSubj.next(filteredContacts);
+      return;
+    }
+
+    this.contactsSubj.next(this.CONTACTS);
   }
 
   private mapToContactGroup = (contacts: Contact[]): ContactGroup =>
