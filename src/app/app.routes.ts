@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'contacts',
-    loadComponent: () => import('./auth/components/login/login.component').then((c) => c.LoginComponent),
+    loadComponent: () => import('./contacts/components/contacts/contacts.component').then((c) => c.ContactsComponent),
     canActivate: [authGuard],
   },
   {
