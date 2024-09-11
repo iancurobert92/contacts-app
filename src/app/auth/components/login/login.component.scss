@@ -1,0 +1,43 @@
+form {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+}
+
+label {
+  margin-bottom: 0.5em;
+  color: #333333;
+  display: block;
+}
+
+input {
+  border: 1px solid #cccccc;
+  padding: 0.5em;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 0.7em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 1em;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:disabled {
+  background-color: #cccccc;
+}
+
+small {
+  color: red;
+}
+
+.mb-1 {
+  margin-bottom: 1em;
+}

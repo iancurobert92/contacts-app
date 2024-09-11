@@ -1,0 +1,20 @@
+<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+  <div class="mb-1">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" ngModel required />
+    <div class="mb-1" *ngIf="loginForm.submitted && loginForm.controls['username']?.invalid">
+      <small *ngIf="loginForm.controls['username']?.errors?.['required']">Username is required</small>
+    </div>
+  </div>
+  <div class="mb-1">
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" ngModel required minlength="6" />
+    <div class="mb-1" *ngIf="loginForm.submitted && loginForm.controls['password']?.invalid">
+      <small *ngIf="loginForm.controls['password']?.errors?.['required']">Password is required</small>
+      <small *ngIf="loginForm.controls['password']?.errors?.['minlength']">
+        Password must be at least 6 characters long.</small
+      >
+    </div>
+  </div>
+  <button type="submit" [disabled]="isLoading$ | async">Login</button>
+</form>
