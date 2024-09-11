@@ -1,1 +1,10 @@
-<p>contact-list works!</p>
+<ng-container *ngIf="data">
+  <section class="group" *ngFor="let key of data | keys; let i = index" [ngClass]="{ 'mt-3': i > 0 }">
+    <h6 class="group-header">{{ key | uppercase }}</h6>
+    <ul class="group-list">
+      <li *ngFor="let contact of data[key]">
+        <button class="contact-button">{{ contact.firstName }} {{ contact.lastName }}</button>
+      </li>
+    </ul>
+  </section>
+</ng-container>
