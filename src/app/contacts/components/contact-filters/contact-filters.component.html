@@ -1,7 +1,12 @@
 <div class="container">
   <form class="search-form" [formGroup]="searchForm">
     <mat-form-field class="w-100">
-      <input matInput placeholder="filter..." value="" [formControl]="searchForm.controls.term" />
+      <input
+        matInput
+        placeholder="filter..."
+        [value]="(contactFilter$ | async)?.name ?? ''"
+        [formControl]="searchForm.controls.term"
+      />
     </mat-form-field>
   </form>
   <a href="#" (click)="handleAdvancedFilterClick($event)">advanced filter</a>

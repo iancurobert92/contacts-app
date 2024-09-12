@@ -1,3 +1,4 @@
+import { AdvancedFilterDialogComponent } from './../advanced-filter-dialog/advanced-filter-dialog.component';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -5,16 +6,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ContactService } from '../../services';
+import { MatDialog } from '@angular/material/dialog';
+import { ContactFilter } from '../../models';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-contact-filters',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, AsyncPipe],
   templateUrl: './contact-filters.component.html',
   styleUrl: './contact-filters.component.scss',
 })
 export class ContactFiltersComponent implements OnInit {
-  searchForm = this.fb.group({ term: '' });
+  readonly searchForm = this.fb.group({ term: '' });
+  readonly contactFilter$ = this.contactService.contactFilter$;
+  readonly dialog = inject(MatDialog);
 
   private destroyRef = inject(DestroyRef);
 
@@ -23,11 +29,19 @@ export class ContactFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.searchForm.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((data) => this.contactService.search(data.term ?? ''));
+      .subscribe((data) => this.contactService.search({ name: data.term ?? '' }));
   }
 
   handleAdvancedFilterClick(event: Event) {
     event.preventDefault();
-    console.log('click');
+
+    this.dialog
+      .open(AdvancedFilterDialogComponent, {
+        width: '250px',
+        data: this.contactService.contactFilterSnapshot,
+      })
+      .afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data) => data && this.contactService.search(data));
   }
 }

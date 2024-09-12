@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { Contact, ContactGroup } from '../models';
+import { Contact, ContactFilter, ContactGroup } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -56,6 +56,7 @@ export class ContactService {
   ];
 
   private contactsSubj = new BehaviorSubject<Contact[]>(this.CONTACTS);
+  private contactFilterSubj = new BehaviorSubject<ContactFilter>({ name: '' });
 
   get contacts$(): Observable<Contact[]> {
     return this.contactsSubj.asObservable().pipe(map(this.sortContactsAlphabetically));
@@ -65,8 +66,19 @@ export class ContactService {
     return this.contacts$.pipe(map(this.mapToContactGroup));
   }
 
-  search(term: string, group?: string) {
-    const text = term.trim();
+  get contactFilter$(): Observable<ContactFilter> {
+    return this.contactFilterSubj.asObservable();
+  }
+
+  get contactFilterSnapshot(): ContactFilter {
+    return this.contactFilterSubj.value;
+  }
+
+  search(contactFilter: ContactFilter) {
+    const text = contactFilter.name.trim();
+    const group = contactFilter.group?.toLocaleLowerCase();
+
+    this.contactsSubj.next(this.CONTACTS);
 
     if (text) {
       const filteredContacts = this.contactsSubj.value.filter((contact) => {
@@ -74,10 +86,9 @@ export class ContactService {
         return fullName.concat(contact.lastName).includes(text) && (group ? contact.group === group : true);
       });
       this.contactsSubj.next(filteredContacts);
-      return;
     }
 
-    this.contactsSubj.next(this.CONTACTS);
+    this.contactFilterSubj.next(contactFilter);
   }
 
   private mapToContactGroup = (contacts: Contact[]): ContactGroup =>

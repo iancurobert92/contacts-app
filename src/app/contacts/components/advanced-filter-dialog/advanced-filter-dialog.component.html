@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Advanced filter</h2>
+<mat-dialog-content>
+  <form #contactFilterForm="ngForm">
+    <mat-form-field class="w-100">
+      <mat-label>Name filter</mat-label>
+      <input matInput [(ngModel)]="contactFilter.name" name="name" />
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Group filter</mat-label>
+      <mat-select [(ngModel)]="contactFilter.group" name="group">
+        <mat-option *ngFor="let group of groups" [value]="group">{{ group }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close color="secondary">Cancel</button>
+  <button mat-flat-button [mat-dialog-close]="contactFilterForm.value" cdkFocusInitial>Filter</button>
+</mat-dialog-actions>
