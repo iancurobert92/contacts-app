@@ -1,1 +1,4 @@
-<p>contact-details works!</p>
+<ng-container *ngIf="data">
+  <h1>{{ data.firstName }} {{ data.lastName }}</h1>
+  <span>{{ data.group }}</span>
+</ng-container>

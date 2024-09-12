@@ -15,7 +15,7 @@ import { Contact } from '../../models';
   styleUrl: './add-edit-contact-dialog.component.scss',
 })
 export class AddEditContactDialogComponent implements OnInit {
-  groups = ['Friends', 'Family', 'Work', 'Others'];
+  groups = ['friends', 'family', 'work', 'others'];
   contact: Contact = { firstName: '', lastName: '', group: this.groups[0] };
 
   constructor(@Inject(MAT_DIALOG_DATA) private data?: Contact) {}

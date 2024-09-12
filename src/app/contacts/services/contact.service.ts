@@ -57,9 +57,14 @@ export class ContactService {
 
   private contactsSubj = new BehaviorSubject<Contact[]>(this.CONTACTS);
   private contactFilterSubj = new BehaviorSubject<ContactFilter>({ name: '' });
+  private selectedContactSubj = new BehaviorSubject<Contact | undefined>(undefined);
 
   get contacts$(): Observable<Contact[]> {
     return this.contactsSubj.asObservable().pipe(map(this.sortContactsAlphabetically));
+  }
+
+  get selectedContact$(): Observable<Contact | undefined> {
+    return this.selectedContactSubj.asObservable();
   }
 
   get contactGroup$(): Observable<ContactGroup> {
@@ -80,13 +85,13 @@ export class ContactService {
 
     this.contactsSubj.next(this.CONTACTS);
 
-    if (text) {
-      const filteredContacts = this.contactsSubj.value.filter((contact) => {
-        const fullName = `${contact.firstName} ${contact.lastName}`;
-        return fullName.concat(contact.lastName).includes(text) && (group ? contact.group === group : true);
-      });
-      this.contactsSubj.next(filteredContacts);
-    }
+    const filteredContacts = this.contactsSubj.value.filter((contact) => {
+      const fullName = `${contact.firstName} ${contact.lastName}`;
+      const includesText = fullName ? fullName.includes(text) : true;
+      const matchesGroup = group ? contact.group === group : true;
+      return includesText && matchesGroup;
+    });
+    this.contactsSubj.next(filteredContacts);
 
     this.contactFilterSubj.next(contactFilter);
   }
@@ -97,13 +102,18 @@ export class ContactService {
   }
 
   deleteContact(contact: Contact) {
-    const currentContact = this.CONTACTS.find((contact) => contact.firstName && contact.lastName); // we should use contact.id instead
+    const currentContact = this.CONTACTS.find(
+      (el) => contact.firstName === el.firstName && contact.lastName === el.lastName
+    ); // we should use contact.id instead
 
     if (!currentContact) return;
-
     const currentContactIndex = this.CONTACTS.indexOf(currentContact);
     this.CONTACTS.splice(currentContactIndex, 1);
     this.search(this.contactFilterSubj.value);
+  }
+
+  selectContact(contact: Contact | undefined) {
+    this.selectedContactSubj.next(contact);
   }
 
   private mapToContactGroup = (contacts: Contact[]): ContactGroup =>

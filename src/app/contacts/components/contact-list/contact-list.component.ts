@@ -1,7 +1,7 @@
 import { NgClass, NgFor, NgIf, UpperCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { KeysPipe } from '../../pipes';
-import { ContactGroup } from '../../models';
+import { Contact, ContactGroup } from '../../models';
 
 @Component({
   selector: 'app-contact-list',
@@ -14,4 +14,14 @@ import { ContactGroup } from '../../models';
 export class ContactListComponent {
   @Input()
   data?: ContactGroup;
+
+  @Input()
+  selectedContact?: Contact;
+
+  @Output()
+  contactClick = new EventEmitter<Contact>();
+
+  handleContactClick(contact: Contact) {
+    this.contactClick.emit(contact);
+  }
 }

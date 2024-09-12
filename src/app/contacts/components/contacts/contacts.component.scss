@@ -42,6 +42,11 @@ $leftPanelWidth: 400px;
 
   &-content {
     flex-grow: 1;
+    padding-top: 116px;
+
+    .info-text {
+      text-align: center;
+    }
   }
 
   &-footer {

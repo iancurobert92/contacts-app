@@ -3,7 +3,13 @@
     <h6 class="group-header">{{ key | uppercase }}</h6>
     <ul class="group-list">
       <li *ngFor="let contact of data[key]">
-        <button class="contact-button">{{ contact.firstName }} {{ contact.lastName }}</button>
+        <button
+          class="contact-button"
+          (click)="handleContactClick(contact)"
+          [ngClass]="{ selected: selectedContact?.firstName === contact.firstName }"
+        >
+          {{ contact.firstName }} {{ contact.lastName }}
+        </button>
       </li>
     </ul>
   </section>

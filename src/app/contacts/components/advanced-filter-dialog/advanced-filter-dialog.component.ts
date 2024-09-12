@@ -15,7 +15,7 @@ import { ContactFilter } from '../../models';
   styleUrl: './advanced-filter-dialog.component.scss',
 })
 export class AdvancedFilterDialogComponent implements OnInit {
-  groups = ['Friends', 'Family', 'Work', 'Others'];
+  groups = ['friends', 'family', 'work', 'others'];
   contactFilter: ContactFilter = { name: '', group: this.groups[0] };
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: ContactFilter) {}

@@ -18,4 +18,12 @@
   font: inherit;
   cursor: pointer;
   outline: inherit;
+
+  &:hover {
+    color: blue;
+  }
+}
+
+.selected {
+  color: blue;
 }

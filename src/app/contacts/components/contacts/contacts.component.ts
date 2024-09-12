@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ContactDetailsComponent } from '../contact-details/contact-details.component';
 import { ContactFiltersComponent } from '../contact-filters/contact-filters.component';
@@ -8,6 +8,7 @@ import { ContactService } from '../../services';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditContactDialogComponent } from '../add-edit-contact-dialog/add-edit-contact-dialog.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Contact } from '../../models';
 
 @Component({
   selector: 'app-contacts',
@@ -18,6 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class ContactsComponent {
   readonly contactGroup$ = this.contactService.contactGroup$;
+  readonly selectedContact$ = this.contactService.selectedContact$;
   readonly dialog = inject(MatDialog);
 
   private destroyRef = inject(DestroyRef);
@@ -34,7 +36,14 @@ export class ContactsComponent {
       .subscribe((data) => data && this.contactService.createContact(data));
   }
 
-  handleEditContactClick() {
-    this.contactService.deleteContact({ firstName: 'al', lastName: 'pacino', group: 'work' });
+  handleDeleteContactClick(contact: Contact) {
+    console.log(contact);
+
+    this.contactService.deleteContact(contact);
+    this.contactService.selectContact(undefined);
+  }
+
+  handleContactClick(contact: Contact) {
+    this.contactService.selectContact(contact);
   }
 }
