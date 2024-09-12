@@ -96,6 +96,16 @@ export class ContactService {
     this.search(this.contactFilterSubj.value);
   }
 
+  deleteContact(contact: Contact) {
+    const currentContact = this.CONTACTS.find((contact) => contact.firstName && contact.lastName); // we should use contact.id instead
+
+    if (!currentContact) return;
+
+    const currentContactIndex = this.CONTACTS.indexOf(currentContact);
+    this.CONTACTS.splice(currentContactIndex, 1);
+    this.search(this.contactFilterSubj.value);
+  }
+
   private mapToContactGroup = (contacts: Contact[]): ContactGroup =>
     contacts.reduce((acc, contact) => {
       const firstLetter = contact.firstName.charAt(0).toLowerCase();

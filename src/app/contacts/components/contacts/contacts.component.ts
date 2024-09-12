@@ -33,4 +33,8 @@ export class ContactsComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data) => data && this.contactService.createContact(data));
   }
+
+  handleEditContactClick() {
+    this.contactService.deleteContact({ firstName: 'al', lastName: 'pacino', group: 'work' });
+  }
 }
