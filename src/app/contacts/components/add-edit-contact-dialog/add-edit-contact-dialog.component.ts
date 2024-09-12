@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule, MatLabel } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
+import { ContactGroupType } from '../../enums';
 import { Contact } from '../../models';
 
 @Component({
@@ -12,10 +13,10 @@ import { Contact } from '../../models';
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatInputModule, MatLabel, MatSelect, MatOption, NgFor],
   templateUrl: './add-edit-contact-dialog.component.html',
-  styleUrl: './add-edit-contact-dialog.component.scss',
+  styles: '',
 })
 export class AddEditContactDialogComponent implements OnInit {
-  groups = ['friends', 'family', 'work', 'others'];
+  groups = [ContactGroupType.Friends, ContactGroupType.Family, ContactGroupType.Work, ContactGroupType.Others];
   contact: Contact = { firstName: '', lastName: '', group: this.groups[0] };
 
   constructor(@Inject(MAT_DIALOG_DATA) private data?: Contact) {}

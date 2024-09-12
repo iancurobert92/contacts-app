@@ -1,14 +1,14 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { Contact } from '../../models';
+import { ContactService } from '../../services';
+import { AddEditContactDialogComponent } from '../add-edit-contact-dialog/add-edit-contact-dialog.component';
 import { ContactDetailsComponent } from '../contact-details/contact-details.component';
 import { ContactFiltersComponent } from '../contact-filters/contact-filters.component';
 import { ContactListComponent } from '../contact-list/contact-list.component';
-import { MatButtonModule } from '@angular/material/button';
-import { ContactService } from '../../services';
-import { MatDialog } from '@angular/material/dialog';
-import { AddEditContactDialogComponent } from '../add-edit-contact-dialog/add-edit-contact-dialog.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Contact } from '../../models';
 
 @Component({
   selector: 'app-contacts',
@@ -33,10 +33,7 @@ export class ContactsComponent implements OnInit {
   }
 
   handleAddContactClick() {
-    this.dialog
-      .open(AddEditContactDialogComponent, {
-        width: '250px',
-      })
+    this.openDialog()
       .afterClosed()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data) => data && this.contactService.createContact(data));
@@ -45,11 +42,7 @@ export class ContactsComponent implements OnInit {
   handleEditContactClick(contact?: Contact) {
     if (!contact) return;
 
-    this.dialog
-      .open(AddEditContactDialogComponent, {
-        width: '250px',
-        data: contact,
-      })
+    this.openDialog(contact)
       .afterClosed()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data) => {
@@ -69,5 +62,12 @@ export class ContactsComponent implements OnInit {
 
   handleContactClick(contact: Contact) {
     this.contactService.selectContact(contact);
+  }
+
+  private openDialog(data?: Contact) {
+    return this.dialog.open(AddEditContactDialogComponent, {
+      width: '250px',
+      data,
+    });
   }
 }

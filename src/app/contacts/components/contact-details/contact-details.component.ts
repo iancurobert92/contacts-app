@@ -7,7 +7,7 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [NgIf],
   templateUrl: './contact-details.component.html',
-  styleUrl: './contact-details.component.scss',
+  styles: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactDetailsComponent {
