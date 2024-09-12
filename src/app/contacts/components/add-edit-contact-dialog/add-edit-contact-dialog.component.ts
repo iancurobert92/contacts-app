@@ -21,6 +21,8 @@ export class AddEditContactDialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) private data?: Contact) {}
 
   ngOnInit(): void {
+    console.log(this.data);
+
     if (this.data) {
       this.contact = { ...this.data };
     }

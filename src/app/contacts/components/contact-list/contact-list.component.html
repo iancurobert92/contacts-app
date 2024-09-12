@@ -6,7 +6,7 @@
         <button
           class="contact-button"
           (click)="handleContactClick(contact)"
-          [ngClass]="{ selected: selectedContact?.firstName === contact.firstName }"
+          [ngClass]="{ selected: selectedContact?.id === contact.id }"
         >
           {{ contact.firstName }} {{ contact.lastName }}
         </button>

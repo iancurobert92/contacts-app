@@ -36,9 +36,23 @@ export class ContactsComponent {
       .subscribe((data) => data && this.contactService.createContact(data));
   }
 
-  handleDeleteContactClick(contact: Contact) {
-    console.log(contact);
+  handleEditContactClick(contact: Contact) {
+    this.dialog
+      .open(AddEditContactDialogComponent, {
+        width: '250px',
+        data: contact,
+      })
+      .afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data) => {
+        if (data) {
+          this.contactService.editContact(data);
+          this.contactService.selectContact(data);
+        }
+      });
+  }
 
+  handleDeleteContactClick(contact: Contact) {
     this.contactService.deleteContact(contact);
     this.contactService.selectContact(undefined);
   }

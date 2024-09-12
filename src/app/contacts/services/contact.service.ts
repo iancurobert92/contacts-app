@@ -8,47 +8,55 @@ import { Contact, ContactFilter, ContactGroup } from '../models';
 export class ContactService {
   CONTACTS: Contact[] = [
     {
+      id: 'morgan',
       firstName: 'morgan',
       lastName: 'freeman',
       group: 'work',
     },
     {
+      id: 'alain',
       firstName: 'alain',
       lastName: 'delon',
       group: 'friends',
     },
     {
+      id: 'al',
       firstName: 'al',
       lastName: 'pacino',
       group: 'friends',
     },
-
     {
+      id: 'anthony',
       firstName: 'anthony',
       lastName: 'hopkins',
       group: 'work',
     },
     {
+      id: 'brad',
       firstName: 'brad',
       lastName: 'pitt',
       group: 'friends',
     },
     {
+      id: 'joaquin',
       firstName: 'joaquin',
       lastName: 'phoenix',
       group: 'work',
     },
     {
+      id: 'matt',
       firstName: 'matt',
       lastName: 'damon',
       group: 'friends',
     },
     {
+      id: 'michael',
       firstName: 'michael',
       lastName: 'caine',
       group: 'others',
     },
     {
+      id: 'tommy',
       firstName: 'tommy',
       lastName: 'lee jones',
       group: 'family',
@@ -97,17 +105,19 @@ export class ContactService {
   }
 
   createContact(contact: Contact) {
+    contact.id = contact.firstName;
     this.CONTACTS.push(contact);
     this.search(this.contactFilterSubj.value);
   }
 
-  deleteContact(contact: Contact) {
-    const currentContact = this.CONTACTS.find(
-      (el) => contact.firstName === el.firstName && contact.lastName === el.lastName
-    ); // we should use contact.id instead
+  editContact(contact: Contact) {
+    const currentContactIndex = this.CONTACTS.findIndex((el) => el.id === contact.id);
+    this.CONTACTS[currentContactIndex] = contact;
+    this.search(this.contactFilterSubj.value);
+  }
 
-    if (!currentContact) return;
-    const currentContactIndex = this.CONTACTS.indexOf(currentContact);
+  deleteContact(contact: Contact) {
+    const currentContactIndex = this.CONTACTS.findIndex((el) => el.id === contact.id);
     this.CONTACTS.splice(currentContactIndex, 1);
     this.search(this.contactFilterSubj.value);
   }

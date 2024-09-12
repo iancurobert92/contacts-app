@@ -22,7 +22,7 @@
     </div>
     @if(selectedContact$ | async; as selectedContact){
     <div class="right-panel-footer">
-      <button mat-flat-button>Edit contact</button>
+      <button mat-flat-button (click)="handleEditContactClick(selectedContact)">Edit contact</button>
       <button mat-flat-button color="warn" (click)="handleDeleteContactClick(selectedContact)">Delete Contact</button>
     </div>
     }
