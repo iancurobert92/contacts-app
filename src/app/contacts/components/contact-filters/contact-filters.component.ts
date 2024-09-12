@@ -1,14 +1,13 @@
-import { AdvancedFilterDialogComponent } from './../advanced-filter-dialog/advanced-filter-dialog.component';
+import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ContactService } from '../../services';
-import { MatDialog } from '@angular/material/dialog';
-import { ContactFilter } from '../../models';
-import { AsyncPipe } from '@angular/common';
+import { AdvancedFilterDialogComponent } from './../advanced-filter-dialog/advanced-filter-dialog.component';
 
 @Component({
   selector: 'app-contact-filters',

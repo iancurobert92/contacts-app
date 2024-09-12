@@ -5,7 +5,7 @@
       <app-contact-list [data]="(contactGroup$ | async) || undefined" />
     </div>
     <div class="left-panel-footer">
-      <button mat-flat-button>Add new contact</button>
+      <button mat-flat-button (click)="handleAddContactClick()">Add new contact</button>
     </div>
   </div>
   <div class="right-panel">

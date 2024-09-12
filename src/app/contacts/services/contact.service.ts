@@ -91,6 +91,11 @@ export class ContactService {
     this.contactFilterSubj.next(contactFilter);
   }
 
+  createContact(contact: Contact) {
+    this.CONTACTS.push(contact);
+    this.search(this.contactFilterSubj.value);
+  }
+
   private mapToContactGroup = (contacts: Contact[]): ContactGroup =>
     contacts.reduce((acc, contact) => {
       const firstLetter = contact.firstName.charAt(0).toLowerCase();

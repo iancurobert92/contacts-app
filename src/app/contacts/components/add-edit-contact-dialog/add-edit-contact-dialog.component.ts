@@ -5,22 +5,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule, MatLabel } from '@angular/material/input';
 import { MatOption, MatSelect } from '@angular/material/select';
-import { ContactFilter } from '../../models';
+import { Contact } from '../../models';
 
 @Component({
-  selector: 'app-advanced-filter-dialog',
+  selector: 'app-add-edit-contact-dialog',
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatInputModule, MatLabel, MatSelect, MatOption, NgFor],
-  templateUrl: './advanced-filter-dialog.component.html',
-  styleUrl: './advanced-filter-dialog.component.scss',
+  templateUrl: './add-edit-contact-dialog.component.html',
+  styleUrl: './add-edit-contact-dialog.component.scss',
 })
-export class AdvancedFilterDialogComponent implements OnInit {
+export class AddEditContactDialogComponent implements OnInit {
   groups = ['Friends', 'Family', 'Work', 'Others'];
-  contactFilter: ContactFilter = { name: '', group: this.groups[0] };
+  contact: Contact = { firstName: '', lastName: '', group: this.groups[0] };
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: ContactFilter) {}
+  constructor(@Inject(MAT_DIALOG_DATA) private data?: Contact) {}
 
   ngOnInit(): void {
-    this.contactFilter = { ...this.data };
+    if (this.data) {
+      this.contact = { ...this.data };
+    }
   }
 }
