@@ -4,7 +4,7 @@
     <div class="left-panel-content">
       <app-contact-list
         [data]="(contactGroup$ | async) || undefined"
-        [selectedContact]="(selectedContact$ | async) ?? undefined"
+        [selectedContact]="selectedContact"
         (contactClick)="handleContactClick($event)"
       />
     </div>
@@ -14,17 +14,24 @@
   </div>
   <div class="right-panel">
     <div class="right-panel-content">
-      @if(selectedContact$ | async; as selectedContact){
+      @if(selectedContact){
       <app-contact-details [data]="selectedContact" />
       }@else {
       <div class="info-text">Please select a contact from the list</div>
       }
     </div>
-    @if(selectedContact$ | async; as selectedContact){
     <div class="right-panel-footer">
-      <button mat-flat-button (click)="handleEditContactClick(selectedContact)">Edit contact</button>
-      <button mat-flat-button color="warn" (click)="handleDeleteContactClick(selectedContact)">Delete Contact</button>
+      <button mat-flat-button [disabled]="!selectedContact" (click)="handleEditContactClick(selectedContact)">
+        Edit contact
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        [disabled]="!selectedContact"
+        (click)="handleDeleteContactClick(selectedContact)"
+      >
+        Delete Contact
+      </button>
     </div>
-    }
   </div>
 </div>

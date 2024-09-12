@@ -13,18 +13,24 @@ import { Contact } from '../../models';
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [AsyncPipe, ContactDetailsComponent, ContactFiltersComponent, ContactListComponent, MatButtonModule],
+  imports: [AsyncPipe, ContactDetailsComponent, ContactFiltersComponent, ContactListComponent, MatButtonModule, NgIf],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
 })
-export class ContactsComponent {
+export class ContactsComponent implements OnInit {
   readonly contactGroup$ = this.contactService.contactGroup$;
-  readonly selectedContact$ = this.contactService.selectedContact$;
   readonly dialog = inject(MatDialog);
+  selectedContact?: Contact;
 
   private destroyRef = inject(DestroyRef);
 
   constructor(private contactService: ContactService) {}
+
+  ngOnInit(): void {
+    this.contactService.selectedContact$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((contact) => (this.selectedContact = contact));
+  }
 
   handleAddContactClick() {
     this.dialog
@@ -36,7 +42,9 @@ export class ContactsComponent {
       .subscribe((data) => data && this.contactService.createContact(data));
   }
 
-  handleEditContactClick(contact: Contact) {
+  handleEditContactClick(contact?: Contact) {
+    if (!contact) return;
+
     this.dialog
       .open(AddEditContactDialogComponent, {
         width: '250px',
@@ -52,7 +60,9 @@ export class ContactsComponent {
       });
   }
 
-  handleDeleteContactClick(contact: Contact) {
+  handleDeleteContactClick(contact?: Contact) {
+    if (!contact) return;
+
     this.contactService.deleteContact(contact);
     this.contactService.selectContact(undefined);
   }
